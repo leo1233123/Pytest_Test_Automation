@@ -1,5 +1,4 @@
 import pytest
-from utils.html_report import generate_html
 
 results = []
 
@@ -21,7 +20,3 @@ def pytest_runtest_makereport(item, call):
             "passed": rep.passed,
             "data": context_data
         })
-
-# Generate HTML after session
-def pytest_sessionfinish(session, exitstatus):
-    generate_html(results)

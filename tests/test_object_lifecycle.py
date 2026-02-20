@@ -64,6 +64,7 @@ def non_existing_object_id(context):
 # ---------------------------
 @when("I send a POST request to create the object")
 def create_object(context):
+    context["action"] = "POST request to create the object"   # ← add this
     response = api.post(context["payload"])
     context["response"] = response
     if response.status_code == 200:
@@ -73,11 +74,13 @@ def create_object(context):
 
 @when("I send a GET request using the stored object id")
 def get_object(context):
+    context["action"] = "GET request using the stored object id"   # ← add this
     response = api.get(context["object_id"])
     context["response"] = response
 
 @when("I update the object with a new name")
 def update_object(context):
+    context["action"] = "PUT request to update the object"   # ← add this
     updated_payload = {"name": "Updated Object Name"}
     response = api.put(context["object_id"], updated_payload)
     context["response"] = response
@@ -85,16 +88,19 @@ def update_object(context):
 
 @when("I send a DELETE request using the stored object id")
 def delete_object(context):
+    context["action"] = "DELETE request using the stored object id"   # ← add this
     response = api.delete(context["object_id"])
     context["response"] = response
 
 @when("I send a GET request using the deleted object id")
 def get_deleted_object(context):
+    context["action"] = "GET request using the deleted object id"   # ← add this
     response = api.get(context["object_id"])
     context["response"] = response
 
 @when("I send a GET request using that id")
 def get_non_existing_object(context):
+    context["action"] = "GET request using non-existing id"   # ← add this
     response = api.get(context["object_id"])
     context["response"] = response
 
@@ -106,7 +112,8 @@ def check_status_200(context):
     passed = context["response"].status_code == 200
     data = safe_json(context["response"])
     results.append({
-        "scenario": "object_lifecycle",
+        "scenario": "Successfully create, retrieve, update and delete an object",
+        "action": context.get("action", "N/A"), 
         "step_description": f"Status code is {context['response'].status_code}",
         "passed": passed,
         "data": data
@@ -118,7 +125,8 @@ def check_object_id(context):
     json_data = safe_json(context["response"])
     passed = "id" in json_data and json_data["id"]
     results.append({
-        "scenario": "object_lifecycle",
+        "scenario": "Successfully create, retrieve, update and delete an object",
+        "action": context.get("action", "N/A"), 
         "step_description": "Check response contains object id",
         "passed": passed,
         "data": json_data
@@ -130,7 +138,8 @@ def check_created_name(context):
     json_data = safe_json(context["response"])
     passed = json_data.get("name") == context.get("created_name")
     results.append({
-        "scenario": "object_lifecycle",
+        "scenario": "Successfully create, retrieve, update and delete an object",
+        "action": context.get("action", "N/A"), 
         "step_description": "Check created object name",
         "passed": passed,
         "data": json_data
@@ -142,7 +151,8 @@ def check_updated_name(context):
     json_data = safe_json(context["response"])
     passed = json_data.get("name") == context.get("updated_name")
     results.append({
-        "scenario": "object_lifecycle",
+        "scenario": "Successfully create, retrieve, update and delete an object",
+        "action": context.get("action", "N/A"), 
         "step_description": "Check updated object name",
         "passed": passed,
         "data": json_data
@@ -154,7 +164,8 @@ def check_status_404(context):
     passed = context["response"].status_code == 404
     data = safe_json(context["response"])
     results.append({
-        "scenario": "object_lifecycle",
+        "scenario": "Retrieve non-existing object",
+        "action": context.get("action", "N/A"), 
         "step_description": "Status code is 404",
         "passed": passed,
         "data": data
@@ -167,9 +178,12 @@ def check_client_error(context):
     passed = 400 <= status < 500
     data = safe_json(context["response"])
     results.append({
-        "scenario": "object_lifecycle",
+        "scenario": "Create object with invalid payload",
+        "action": context.get("action", "N/A"), 
         "step_description": f"Client error status: {status}",
         "passed": passed,
         "data": data
     })
     assert passed
+
+
