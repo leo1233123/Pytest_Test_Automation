@@ -1,0 +1,290 @@
+
+    <html>
+    <head>
+        <title>Test Report</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f8; color: #333; margin:0; padding:0; }
+            .header { background-color: #2c3e50; color:#fff; padding:20px; text-align:center; }
+            .summary { padding:20px; display:flex; justify-content:space-around; flex-wrap:wrap; background-color:#ecf0f1; }
+            .summary div { text-align:center; padding:10px 20px; border-radius:5px; font-weight:bold; margin:5px; flex:1 1 150px; }
+            .summary .passed { background-color:#d4edda; color:#155724; }
+            .summary .failed { background-color:#f8d7da; color:#721c24; }
+            .summary .total { background-color:#d1ecf1; color:#0c5460; }
+            .summary .rate { background-color:#fff3cd; color:#856404; }
+
+            /* Key fix: all tables share the same fixed layout and width */
+            table {
+                width: 95%;
+                margin: 20px auto;
+                border-collapse: collapse;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                table-layout: fixed;   /* forces columns to respect col widths */
+            }
+
+            /* Fixed column widths — must add up to 100% */
+            col.col-assertion  { width: 25%; }
+            col.col-action     { width: 25%; }
+            col.col-status     { width: 10%; }
+            col.col-payload    { width: 40%; }
+
+            th, td {
+                border: 1px solid #ddd;
+                padding: 12px;
+                text-align: left;
+                word-wrap: break-word;      /* prevent long text from blowing out columns */
+                overflow-wrap: break-word;
+            }
+            th { background-color: #2c3e50; color: white; text-transform: uppercase; }
+            tr:hover { background-color: #f1f1f1; }
+            tr.passed td { background-color: #d4edda; }
+            tr.failed td { background-color: #f8d7da; }
+            .status-badge {
+                display: inline-block;
+                padding: 4px 10px;
+                border-radius: 12px;
+                font-weight: bold;
+                font-size: 0.85em;
+            }
+            .status-badge.passed { background-color: #28a745; color: white; }
+            .status-badge.failed { background-color: #dc3545; color: white; }
+            pre {
+                white-space: pre-wrap;
+                word-wrap: break-word;
+                background-color: #f4f4f4;
+                padding: 8px;
+                border-radius: 4px;
+                margin: 0;
+                font-size: 0.85em;
+            }
+
+            @media screen and (max-width:768px) {
+                table, thead, tbody, th, td, tr { display: block; width: 100%; }
+                thead tr { display: none; }
+                tr { margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; padding: 10px; }
+                td { text-align: right; padding-left: 50%; position: relative; }
+                td::before { content: attr(data-label); position: absolute; left: 15px; width: 45%; padding-right: 10px; font-weight: bold; text-align: left; }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Test Report</h1>
+            <p>Generated on: 2026-02-20 10:16:28</p>
+        </div>
+    
+        <div class="summary">
+            <div class="total">Total: 7</div>
+            <div class="passed">Passed: 7</div>
+            <div class="failed">Failed: 0</div>
+            <div class="rate">Success Rate: 100.00%</div>
+        </div>
+
+        <h2 style="text-align:center;">Scenario: Successfully create, retrieve, update and delete an object</h2>
+        <table>
+            <colgroup>
+                <col class="col-assertion">
+                <col class="col-action">
+                <col class="col-status">
+                <col class="col-payload">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Assertion / Step</th>
+                    <th>Action (When)</th>
+                    <th>Status</th>
+                    <th>Payload / Response</th>
+                </tr>
+            </thead>
+            <tbody>
+        
+                <tr class="passed">
+                    <td data-label="Assertion / Step">Status code is 200</td>
+                    <td data-label="Action">POST request to create the object</td>
+                    <td data-label="Status">
+                        <span class="status-badge passed">
+                            PASSED
+                        </span>
+                    </td>
+                    <td data-label="Payload / Response"><pre>id: f0fe3459e558409495be18808e24c655
+name: Test Object
+data:
+  year: 2024
+  price: 1000</pre></td>
+                </tr>
+            
+                <tr class="passed">
+                    <td data-label="Assertion / Step">Check response contains object id</td>
+                    <td data-label="Action">POST request to create the object</td>
+                    <td data-label="Status">
+                        <span class="status-badge passed">
+                            PASSED
+                        </span>
+                    </td>
+                    <td data-label="Payload / Response"><pre>id: f0fe3459e558409495be18808e24c655
+name: Test Object
+data:
+  year: 2024
+  price: 1000</pre></td>
+                </tr>
+            
+                <tr class="passed">
+                    <td data-label="Assertion / Step">Status code is 200</td>
+                    <td data-label="Action">GET request using the stored object id</td>
+                    <td data-label="Status">
+                        <span class="status-badge passed">
+                            PASSED
+                        </span>
+                    </td>
+                    <td data-label="Payload / Response"><pre>id: f0fe3459e558409495be18808e24c655
+name: Test Object
+data:
+  year: 2024
+  price: 1000</pre></td>
+                </tr>
+            
+                <tr class="passed">
+                    <td data-label="Assertion / Step">Check created object name</td>
+                    <td data-label="Action">GET request using the stored object id</td>
+                    <td data-label="Status">
+                        <span class="status-badge passed">
+                            PASSED
+                        </span>
+                    </td>
+                    <td data-label="Payload / Response"><pre>id: f0fe3459e558409495be18808e24c655
+name: Test Object
+data:
+  year: 2024
+  price: 1000</pre></td>
+                </tr>
+            
+                <tr class="passed">
+                    <td data-label="Assertion / Step">Status code is 200</td>
+                    <td data-label="Action">PUT request to update the object</td>
+                    <td data-label="Status">
+                        <span class="status-badge passed">
+                            PASSED
+                        </span>
+                    </td>
+                    <td data-label="Payload / Response"><pre>id: f0fe3459e558409495be18808e24c655
+name: Updated Object Name</pre></td>
+                </tr>
+            
+                <tr class="passed">
+                    <td data-label="Assertion / Step">Check updated object name</td>
+                    <td data-label="Action">PUT request to update the object</td>
+                    <td data-label="Status">
+                        <span class="status-badge passed">
+                            PASSED
+                        </span>
+                    </td>
+                    <td data-label="Payload / Response"><pre>id: f0fe3459e558409495be18808e24c655
+name: Updated Object Name</pre></td>
+                </tr>
+            
+                <tr class="passed">
+                    <td data-label="Assertion / Step">Status code is 200</td>
+                    <td data-label="Action">DELETE request using the stored object id</td>
+                    <td data-label="Status">
+                        <span class="status-badge passed">
+                            PASSED
+                        </span>
+                    </td>
+                    <td data-label="Payload / Response"><pre>deleted: True</pre></td>
+                </tr>
+            
+            </tbody>
+        </table>
+        
+        <div class="summary">
+            <div class="total">Total: 2</div>
+            <div class="passed">Passed: 2</div>
+            <div class="failed">Failed: 0</div>
+            <div class="rate">Success Rate: 100.00%</div>
+        </div>
+
+        <h2 style="text-align:center;">Scenario: Retrieve non-existing object</h2>
+        <table>
+            <colgroup>
+                <col class="col-assertion">
+                <col class="col-action">
+                <col class="col-status">
+                <col class="col-payload">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Assertion / Step</th>
+                    <th>Action (When)</th>
+                    <th>Status</th>
+                    <th>Payload / Response</th>
+                </tr>
+            </thead>
+            <tbody>
+        
+                <tr class="passed">
+                    <td data-label="Assertion / Step">Status code is 404</td>
+                    <td data-label="Action">GET request using the deleted object id</td>
+                    <td data-label="Status">
+                        <span class="status-badge passed">
+                            PASSED
+                        </span>
+                    </td>
+                    <td data-label="Payload / Response"><pre>error: not found</pre></td>
+                </tr>
+            
+                <tr class="passed">
+                    <td data-label="Assertion / Step">Status code is 404</td>
+                    <td data-label="Action">GET request using non-existing id</td>
+                    <td data-label="Status">
+                        <span class="status-badge passed">
+                            PASSED
+                        </span>
+                    </td>
+                    <td data-label="Payload / Response"><pre>error: not found</pre></td>
+                </tr>
+            
+            </tbody>
+        </table>
+        
+        <div class="summary">
+            <div class="total">Total: 1</div>
+            <div class="passed">Passed: 1</div>
+            <div class="failed">Failed: 0</div>
+            <div class="rate">Success Rate: 100.00%</div>
+        </div>
+
+        <h2 style="text-align:center;">Scenario: Create object with invalid payload</h2>
+        <table>
+            <colgroup>
+                <col class="col-assertion">
+                <col class="col-action">
+                <col class="col-status">
+                <col class="col-payload">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Assertion / Step</th>
+                    <th>Action (When)</th>
+                    <th>Status</th>
+                    <th>Payload / Response</th>
+                </tr>
+            </thead>
+            <tbody>
+        
+                <tr class="passed">
+                    <td data-label="Assertion / Step">Client error status: 400</td>
+                    <td data-label="Action">POST request to create the object</td>
+                    <td data-label="Status">
+                        <span class="status-badge passed">
+                            PASSED
+                        </span>
+                    </td>
+                    <td data-label="Payload / Response"><pre>error: invalid payload</pre></td>
+                </tr>
+            
+            </tbody>
+        </table>
+        
+    </body>
+    </html>
+    
