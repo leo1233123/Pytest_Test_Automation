@@ -3,12 +3,15 @@ from pytest_bdd import scenarios, given, when, then
 from api.client import ObjectApi
 import atexit
 import os
+from datetime import datetime
+from dotenv import load_dotenv
+from pathlib import Path
+BASE_URL = os.getenv("BASE_URL")
 
-BASE_URL = "https://api.restful-api.dev/objects"
 api = ObjectApi(BASE_URL)
 
 # Load feature file
-scenarios("../features/object_lifecycle.feature")
+scenarios("../../features/object_lifecycle.feature")
 
 # Results collector
 results = []
@@ -64,7 +67,7 @@ def non_existing_object_id(context):
 # ---------------------------
 @when("I send a POST request to create the object")
 def create_object(context):
-    context["action"] = "POST request to create the object"   # ← add this
+    context["action"] = "POST request to create the object"   
     response = api.post(context["payload"])
     context["response"] = response
     if response.status_code == 200:
@@ -74,13 +77,13 @@ def create_object(context):
 
 @when("I send a GET request using the stored object id")
 def get_object(context):
-    context["action"] = "GET request using the stored object id"   # ← add this
+    context["action"] = "GET request using the stored object id"   
     response = api.get(context["object_id"])
     context["response"] = response
 
 @when("I update the object with a new name")
 def update_object(context):
-    context["action"] = "PUT request to update the object"   # ← add this
+    context["action"] = "PUT request to update the object"   
     updated_payload = {"name": "Updated Object Name"}
     response = api.put(context["object_id"], updated_payload)
     context["response"] = response
@@ -88,19 +91,19 @@ def update_object(context):
 
 @when("I send a DELETE request using the stored object id")
 def delete_object(context):
-    context["action"] = "DELETE request using the stored object id"   # ← add this
+    context["action"] = "DELETE request using the stored object id"   
     response = api.delete(context["object_id"])
     context["response"] = response
 
 @when("I send a GET request using the deleted object id")
 def get_deleted_object(context):
-    context["action"] = "GET request using the deleted object id"   # ← add this
+    context["action"] = "GET request using the deleted object id"   
     response = api.get(context["object_id"])
     context["response"] = response
 
 @when("I send a GET request using that id")
 def get_non_existing_object(context):
-    context["action"] = "GET request using non-existing id"   # ← add this
+    context["action"] = "GET request using non-existing id"   
     response = api.get(context["object_id"])
     context["response"] = response
 
@@ -116,7 +119,9 @@ def check_status_200(context):
         "action": context.get("action", "N/A"), 
         "step_description": f"Status code is {context['response'].status_code}",
         "passed": passed,
-        "data": data
+        "payload": context.get("payload", None),   # 👈 store payload
+        "response": data, 
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     })
     assert passed
 
@@ -129,7 +134,9 @@ def check_object_id(context):
         "action": context.get("action", "N/A"), 
         "step_description": "Check response contains object id",
         "passed": passed,
-        "data": json_data
+        "payload": context.get("payload", None),   # 👈 store payload
+        "response": json_data,
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     })
     assert passed
 
@@ -142,7 +149,9 @@ def check_created_name(context):
         "action": context.get("action", "N/A"), 
         "step_description": "Check created object name",
         "passed": passed,
-        "data": json_data
+        "payload": context.get("payload", None),   # 👈 store payload
+        "response": json_data,
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     })
     assert passed
 
@@ -155,7 +164,9 @@ def check_updated_name(context):
         "action": context.get("action", "N/A"), 
         "step_description": "Check updated object name",
         "passed": passed,
-        "data": json_data
+        "payload": context.get("payload", None),   # 👈 store payload
+        "response": json_data,
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     })
     assert passed
 
@@ -168,7 +179,9 @@ def check_status_404(context):
         "action": context.get("action", "N/A"), 
         "step_description": "Status code is 404",
         "passed": passed,
-        "data": data
+        "payload": context.get("payload", None),   # 👈 store payload
+        "response": data,
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     })
     assert passed
 
@@ -182,7 +195,9 @@ def check_client_error(context):
         "action": context.get("action", "N/A"), 
         "step_description": f"Client error status: {status}",
         "passed": passed,
-        "data": data
+        "payload": context.get("payload", None),   # 👈 store payload
+        "response": data,
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     })
     assert passed
 
